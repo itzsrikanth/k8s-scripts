@@ -9,6 +9,8 @@ sudo yum check-update
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 sudo yum -y install docker
+sudo groupadd docker
+sudo usermod -aG docker $(whoami)
 sudo systemctl enable docker
 sudo systemctl start docker
 
@@ -23,8 +25,7 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 exclude=kube*
 EOF
 
-V=1.15.3
-yum install -y kubelet-$V kubeadm-$V kubectl-$V --disableexcludes=kubernetes
+yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 systemctl start kubelet
 systemctl enable kubelet
 
